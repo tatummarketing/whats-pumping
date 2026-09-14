@@ -2,6 +2,8 @@
 
 Fun meme-coin radar powered by Tatum Data API.
 
+**Live demo:** [https://whats-pumping.vercel.app](https://whats-pumping.vercel.app)
+
 ## Features
 
 - Dark hero with **green wojak** (best % for the selected timeframe) and **rekt wojak** (worst % / rug of the day)
