@@ -1,6 +1,6 @@
 # What's Pumping?
 
-Fun meme-coin radar inspired by [Katana Trader Info](https://apps.tatum.io/katana-trader-info) and powered by Tatum Data API.
+Fun meme-coin radar powered by Tatum Data API.
 
 ## Features
 

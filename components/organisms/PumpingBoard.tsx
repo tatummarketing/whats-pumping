@@ -244,14 +244,6 @@ export default function PumpingBoard() {
                 { value: "marketCap", label: "Rank by market cap" },
               ]}
             />
-            <Segmented
-              value={viewMode}
-              onChange={setViewMode}
-              options={[
-                { value: "table", label: "Table" },
-                { value: "bubbles", label: "Bubble view" },
-              ]}
-            />
           </div>
           <button
             type="button"
@@ -309,7 +301,7 @@ export default function PumpingBoard() {
 
       {/* Leaderboard */}
       <section className="space-y-3">
-        <div className="flex flex-wrap items-end justify-between gap-2">
+        <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="text-2xl font-bold text-[#111827]">
               {rankMode === "percent"
@@ -320,6 +312,14 @@ export default function PumpingBoard() {
               Tap a row for the chart. Timeframe changes re-rank when sorting by %.
             </p>
           </div>
+          <Segmented
+            value={viewMode}
+            onChange={setViewMode}
+            options={[
+              { value: "table", label: "Table" },
+              { value: "bubbles", label: "Bubble view" },
+            ]}
+          />
         </div>
 
         {error ? (
@@ -458,13 +458,13 @@ function MoodCard({
       <Image
         src={`${wojak}?v=8`}
         alt=""
-        width={up ? 200 : 168}
-        height={up ? 200 : 168}
+        width={200}
+        height={200}
         className={clsxm(
           "pointer-events-none absolute bg-transparent transition duration-300 group-hover:scale-110",
           up
             ? "-bottom-6 -right-4 opacity-90 group-hover:opacity-100"
-            : "-bottom-8 -right-7 opacity-60 group-hover:opacity-85"
+            : "-bottom-6 -right-4 opacity-60 group-hover:opacity-85"
         )}
         style={{ backgroundColor: "transparent" }}
         unoptimized
