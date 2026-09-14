@@ -3,25 +3,80 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --tatum-purple: #4f37fd;
+  --tatum-ink: #111827;
+  --tatum-muted: #6b7280;
+  --tatum-bg: #f4f5f8;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--tatum-ink);
+  background: var(--tatum-bg);
+  min-height: 100vh;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+::selection {
+  background: rgba(79, 55, 253, 0.2);
+}
+
+.flame-rank {
+  position: relative;
+  display: inline-flex;
+  width: 3rem;
+  height: 3.4rem;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.flame-rank::before,
+.flame-rank::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50% 50% 45% 45%;
+  background: radial-gradient(circle at 50% 70%, #fde68a 0%, #fb923c 35%, #ef4444 70%, transparent 75%);
+  filter: blur(0.5px);
+  animation: flame-wobble 0.45s ease-in-out infinite alternate;
+}
+
+.flame-rank::after {
+  inset: 12% 18% 8%;
+  background: radial-gradient(circle at 50% 65%, #fff7ed 0%, #fbbf24 40%, #f97316 75%, transparent 80%);
+  animation-duration: 0.35s;
+  animation-direction: alternate-reverse;
+  opacity: 0.9;
+}
+
+.flame-rank-core {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 0.45rem;
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #7c2d12;
+  text-shadow: 0 1px 0 #fff7ed;
+  animation: flame-pop 0.9s ease-in-out infinite;
+}
+
+@keyframes flame-wobble {
+  from {
+    transform: scale(0.92) rotate(-4deg) translateY(2px);
   }
+  to {
+    transform: scale(1.08) rotate(4deg) translateY(-2px);
+  }
+}
+
+@keyframes flame-pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+.meme-title {
+  text-shadow: 0 8px 30px rgba(79, 55, 253, 0.35);
 }

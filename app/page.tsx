@@ -1,101 +1,99 @@
 import Image from "next/image";
+import PumpingBoard from "@/components/organisms/PumpingBoard";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+    <main className="min-h-screen">
+      <header className="sticky top-0 z-40 border-b border-[#e6e8ef] bg-white/90 backdrop-blur">
+        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 md:px-6">
           <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            href="https://tatum.io"
             target="_blank"
             rel="noopener noreferrer"
+            className="flex items-center gap-2"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            <Image src="/tatum.svg" alt="Tatum" width={84} height={20} priority />
+            <span className="hidden text-sm font-semibold text-[#111827] sm:inline">
+              What&apos;s Pumping?
+            </span>
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href="https://docs.tatum.io/reference/gettrendingtokensv4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden rounded-xl border border-[#dfe3ee] px-3 py-2 text-sm font-semibold text-[#111827] hover:bg-[#f7f8fc] sm:inline-flex"
+            >
+              Read Docs
+            </a>
+            <a
+              href="https://dashboard.tatum.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex rounded-xl bg-[#4f37fd] px-3 py-2 text-sm font-semibold text-white hover:bg-[#3f2ae6]"
+            >
+              Get API Key
+            </a>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </header>
+
+      <div className="px-4 py-6 md:px-6 md:py-8">
+        <PumpingBoard />
+      </div>
+
+      <footer className="border-t border-[#e6e8ef] bg-white">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 text-sm text-[#6b7280] md:flex-row md:items-center md:justify-between md:px-6">
+          <p>
+            Built with Tatum Data API ·{" "}
+            <code className="rounded bg-[#f3f4f8] px-1.5 py-0.5 text-xs text-[#4f37fd]">
+              GET /v4/data/tokens/trending
+            </code>
+          </p>
+          <div className="flex flex-wrap gap-x-4 gap-y-2 font-medium">
+            <a
+              href="https://docs.tatum.io/reference/gettrendingtokensv4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#4f37fd] hover:underline"
+            >
+              Trending docs
+            </a>
+            <a
+              href="https://docs.tatum.io/docs/notifications"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#4f37fd] hover:underline"
+            >
+              Notifications
+            </a>
+            <a
+              href="https://dashboard.tatum.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#4f37fd] hover:underline"
+            >
+              Dashboard
+            </a>
+            <a
+              href="https://github.com/tatumio/example-apps"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#4f37fd] hover:underline"
+            >
+              Example apps
+            </a>
+            <a
+              href="https://status.tatum.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#4f37fd] hover:underline"
+            >
+              Status
+            </a>
+          </div>
+        </div>
       </footer>
-    </div>
+    </main>
   );
 }
