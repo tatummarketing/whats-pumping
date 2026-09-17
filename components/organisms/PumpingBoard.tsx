@@ -8,6 +8,7 @@ import TimeframeToggle from "@/components/molecules/TimeframeToggle";
 import TokenChartModal from "@/components/molecules/TokenChartModal";
 import TokenTable from "@/components/molecules/TokenTable";
 import type { RankMode, Timeframe, TrendingToken, ViewMode } from "@/lib/types";
+import { apiUrl } from "@/lib/base-path";
 import {
   CHAIN_THEMES,
   SEARCH_CHAINS,
@@ -22,9 +23,26 @@ import {
 
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url);
-  const data = await res.json();
+  const text = await res.text();
+  let data: unknown = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    throw new Error(
+      res.ok
+        ? "Invalid JSON from API"
+        : `Request failed (${res.status})`
+    );
+  }
   if (!res.ok) {
-    throw new Error(data?.message || `Request failed (${res.status})`);
+    const message =
+      typeof data === "object" &&
+      data &&
+      "message" in data &&
+      typeof (data as { message: unknown }).message === "string"
+        ? (data as { message: string }).message
+        : `Request failed (${res.status})`;
+    throw new Error(message);
   }
   return data as T;
 }
@@ -58,7 +76,9 @@ export default function PumpingBoard() {
       ];
       const lists = await Promise.all(
         chains.map((chain) =>
-          fetchJson<TrendingToken[]>(`/api/trending?chain=${chain}&limit=50`)
+          fetchJson<TrendingToken[]>(
+            apiUrl(`/api/trending?chain=${chain}&limit=50`)
+          )
         )
       );
 
@@ -129,7 +149,9 @@ export default function PumpingBoard() {
           logo?: string;
           decimals?: number;
         }>(
-          `/api/token?chain=${encodeURIComponent(searchChain)}&tokenAddress=${encodeURIComponent(q)}`
+          apiUrl(
+            `/api/token?chain=${encodeURIComponent(searchChain)}&tokenAddress=${encodeURIComponent(q)}`
+          )
         );
 
         setSearchHits([
@@ -216,7 +238,7 @@ export default function PumpingBoard() {
               subtitle="Best perf"
               token={best}
               timeframe={timeframe}
-              wojak="/wojak-pump.png"
+              wojak={apiUrl("/wojak-pump.png")}
               onOpen={() => best && setSelected(best)}
             />
             <MoodCard
@@ -224,7 +246,7 @@ export default function PumpingBoard() {
               subtitle="Rug of the day"
               token={rug}
               timeframe={timeframe}
-              wojak="/wojak-rekt.png"
+              wojak={apiUrl("/wojak-rekt.png")}
               onOpen={() => rug && setSelected(rug)}
             />
           </div>
@@ -455,14 +477,13 @@ function MoodCard({
           : "border-rose-400/40 bg-rose-500/10 hover:border-rose-300"
       )}
     >
-      <Image
+      <img
         src={`${wojak}?v=9`}
         alt=""
         width={168}
         height={168}
         className="pointer-events-none absolute -bottom-5 -right-3 h-[168px] w-[168px] object-contain opacity-35 transition duration-300 group-hover:scale-105 group-hover:opacity-50"
         style={{ backgroundColor: "transparent" }}
-        unoptimized
       />
       <div className="relative z-10 max-w-[calc(100%-7.5rem)]">
         <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">

@@ -14,7 +14,8 @@ export async function tatumGet(path: string) {
       "x-api-key": apiKey(),
       accept: "application/json",
     },
-    next: { revalidate: 60 },
+    // Edge / Webflow Cloud: no Next ISR cache options
+    cache: "no-store",
   });
 
   const text = await res.text();

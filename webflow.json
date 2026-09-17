@@ -1,5 +1,11 @@
 {
   "cloud": {
-    "framework": "nextjs"
+    "contract_version": "1",
+    "framework": "nextjs",
+    "framework_version": "15.5.25",
+    "entrypoint_path": "./worker.js",
+    "deployment_type": "ssr",
+    "skip_no_bundle": false,
+    "app_id": "0975131f-2b1c-4aaa-987b-7f09c6d56926"
   }
 }

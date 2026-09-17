@@ -4,6 +4,7 @@ import Image from "next/image";
 import * as React from "react";
 import type { Timeframe, TrendingToken } from "@/lib/types";
 import { build1mChart24h, type ChartPoint } from "@/lib/chart";
+import { apiUrl } from "@/lib/base-path";
 import {
   chainLabel,
   clsxm,
@@ -82,7 +83,9 @@ export default function TokenChartModal({
     (async () => {
       try {
         const res = await fetch(
-          `/api/chart?chain=${encodeURIComponent(token.chain)}&address=${encodeURIComponent(token.tokenAddress)}`
+          apiUrl(
+            `/api/chart?chain=${encodeURIComponent(token.chain)}&address=${encodeURIComponent(token.tokenAddress)}`
+          )
         );
         const data = await res.json();
         if (cancelled) return;
