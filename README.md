@@ -4,6 +4,8 @@ Fun meme-coin radar powered by Tatum Data API.
 
 **Live demo:** [https://whats-pumping.vercel.app](https://whats-pumping.vercel.app)
 
+[![Deploy to Webflow](https://webflow.com/img/deploy-dark.svg)](https://webflow.com/dashboard/cloud/deploy?repo=https://github.com/tatummarketing/whats-pumping)
+
 ## Features
 
 - Dark hero with **green wojak** (best % for the selected timeframe) and **rekt wojak** (worst % / rug of the day)

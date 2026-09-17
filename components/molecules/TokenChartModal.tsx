@@ -39,6 +39,23 @@ export default function TokenChartModal({
   const [loading, setLoading] = React.useState(true);
   const [hover, setHover] = React.useState<number | null>(null);
   const [drawn, setDrawn] = React.useState(0);
+  const [copied, setCopied] = React.useState(false);
+
+  const shortAddress = React.useMemo(() => {
+    const addr = token.tokenAddress || "";
+    if (addr.length <= 14) return addr;
+    return `${addr.slice(0, 6)}…${addr.slice(-4)}`;
+  }, [token.tokenAddress]);
+
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(token.tokenAddress);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // ignore
+    }
+  };
 
   const change = token.pricePercentChange?.[timeframe] ?? 0;
   const up = change >= 0;
@@ -195,6 +212,20 @@ export default function TokenChartModal({
                     mcap {formatUsd(token.marketCap)}
                   </span>
                 </div>
+                {token.tokenAddress && (
+                  <button
+                    type="button"
+                    onClick={copyAddress}
+                    title={token.tokenAddress}
+                    className="mt-1.5 inline-flex max-w-full items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2 py-1 font-mono text-[11px] text-white/60 transition hover:border-white/25 hover:bg-white/10 hover:text-white/90"
+                  >
+                    <span className="text-white/35">CA</span>
+                    <span className="truncate">{shortAddress}</span>
+                    <span className="text-white/35">
+                      {copied ? "copied" : "copy"}
+                    </span>
+                  </button>
+                )}
               </div>
             </div>
             <button

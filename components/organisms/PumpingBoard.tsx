@@ -169,7 +169,7 @@ export default function PumpingBoard() {
       {/* Hero */}
       <section className="relative overflow-hidden rounded-3xl bg-[#10182e] px-6 py-8 text-white md:px-8 md:py-10">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(79,55,253,0.35),transparent_45%),radial-gradient(circle_at_10%_90%,rgba(44,205,154,0.2),transparent_40%)]" />
-        <div className="relative z-10 grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+        <div className="relative z-10 space-y-8">
           <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs text-[#c7ffdf]">
@@ -449,27 +449,22 @@ function MoodCard({
       type="button"
       onClick={onOpen}
       className={clsxm(
-        "group relative overflow-hidden rounded-2xl border p-4 text-left transition hover:-translate-y-1 hover:shadow-xl",
+        "group relative min-h-[168px] overflow-hidden rounded-2xl border p-4 text-left transition hover:-translate-y-1 hover:shadow-xl md:p-5",
         up
           ? "border-emerald-400/40 bg-emerald-500/10 hover:border-emerald-300"
           : "border-rose-400/40 bg-rose-500/10 hover:border-rose-300"
       )}
     >
       <Image
-        src={`${wojak}?v=8`}
+        src={`${wojak}?v=9`}
         alt=""
-        width={200}
-        height={200}
-        className={clsxm(
-          "pointer-events-none absolute bg-transparent transition duration-300 group-hover:scale-110",
-          up
-            ? "-bottom-6 -right-4 opacity-90 group-hover:opacity-100"
-            : "-bottom-6 -right-4 opacity-60 group-hover:opacity-85"
-        )}
+        width={168}
+        height={168}
+        className="pointer-events-none absolute -bottom-5 -right-3 h-[168px] w-[168px] object-contain opacity-35 transition duration-300 group-hover:scale-105 group-hover:opacity-50"
         style={{ backgroundColor: "transparent" }}
         unoptimized
       />
-      <div className="relative z-10">
+      <div className="relative z-10 max-w-[calc(100%-7.5rem)]">
         <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">
           {subtitle}
         </div>
