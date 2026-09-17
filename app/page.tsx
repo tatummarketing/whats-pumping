@@ -94,6 +94,16 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      <a
+        href="https://ai.tatum.io/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-4 right-4 z-50 inline-flex items-center gap-2 rounded-full border border-[#d5d3fe] bg-white px-3.5 py-2 text-xs font-semibold text-[#1c1e4f] shadow-lg shadow-[#1c1e4f]/10 transition hover:-translate-y-0.5 hover:border-[#4f37fd] hover:text-[#4f37fd]"
+      >
+        <span className="h-2 w-2 rounded-full bg-[#2ccd9a]" />
+        Built with Tatum Builder
+      </a>
     </main>
   );
 }
