@@ -31,24 +31,30 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "What's Pumping? · Tatum",
-    description: "Get trending tokens. Best pumps and rugs of the day.",
+    description:
+      "Live meme-coin radar for Solana, Base & BSC. Powered by Tatum Trending Tokens API.",
     url: "https://apps.tatum.io/whats-pumping",
     siteName: "Tatum",
     type: "website",
     images: [
       {
-        url: "/og.png",
+        // Prefer Webflow CDN — more reliable for X/Twitter crawlers than the Cloud worker.
+        url: "https://cdn.prod.website-files.com/618a9dc0e5826661c77e6a67/6aabb705346351ac10d36876_whats-pumping-og.png",
         width: 1200,
         height: 630,
-        alt: "What's Pumping? — Get Trending Tokens",
+        type: "image/png",
+        alt: "What's Pumping? — Trending Tokens API",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "What's Pumping? · Tatum",
-    description: "Get trending tokens. Best pumps and rugs of the day.",
-    images: ["/og.png"],
+    description:
+      "Live meme-coin radar for Solana, Base & BSC. Powered by Tatum Trending Tokens API.",
+    images: [
+      "https://cdn.prod.website-files.com/618a9dc0e5826661c77e6a67/6aabb705346351ac10d36876_whats-pumping-og.png",
+    ],
   },
 };
 
