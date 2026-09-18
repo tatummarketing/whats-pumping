@@ -23,23 +23,40 @@ function hostnameFromUrl(value: string | null): string | null {
   }
 }
 
+function hostnameFromHostHeader(value: string | null): string | null {
+  if (!value) return null;
+  // "apps.tatum.io:443" or first of a forwarded list
+  const first = value.split(",")[0]?.trim().toLowerCase();
+  if (!first) return null;
+  return first.split(":")[0] || null;
+}
+
 function isLocalHost(host: string) {
   return host === "localhost" || host === "127.0.0.1" || host.endsWith(".localhost");
+}
+
+function requestHostCandidates(req: NextRequest): string[] {
+  const out: string[] = [];
+  for (const raw of [
+    req.headers.get("x-forwarded-host"),
+    req.headers.get("host"),
+  ]) {
+    const host = hostnameFromHostHeader(raw);
+    if (host && !out.includes(host)) out.push(host);
+  }
+  return out;
 }
 
 /** Reject requests that aren't from an allowed browser origin/host. */
 export function assertAllowedHost(req: NextRequest): NextResponse | null {
   const hosts = allowedHosts();
-  const requestHost = (req.headers.get("host") || "")
-    .split(":")[0]
-    .toLowerCase();
-
-  if (!requestHost || !hosts.has(requestHost)) {
-    return NextResponse.json({ message: "Forbidden" }, { status: 403 });
-  }
+  const candidates = requestHostCandidates(req);
 
   // Local/dev tooling (curl, Playwright) hitting localhost directly.
-  if (isLocalHost(requestHost) && process.env.NODE_ENV !== "production") {
+  if (
+    candidates.some(isLocalHost) &&
+    process.env.NODE_ENV !== "production"
+  ) {
     return null;
   }
 
@@ -47,9 +64,26 @@ export function assertAllowedHost(req: NextRequest): NextResponse | null {
   const refererHost = hostnameFromUrl(req.headers.get("referer"));
   const secFetchSite = (req.headers.get("sec-fetch-site") || "").toLowerCase();
 
+  // Prefer Origin / Referer — reliable on reverse proxies where Host is internal.
   if (originHost && hosts.has(originHost)) return null;
   if (refererHost && hosts.has(refererHost)) return null;
-  if (secFetchSite === "same-origin" && hosts.has(requestHost)) return null;
+
+  if (
+    secFetchSite === "same-origin" &&
+    candidates.some((h) => hosts.has(h))
+  ) {
+    return null;
+  }
+
+  // Same-site navigations sometimes omit Origin on GET; accept allowlisted Host.
+  if (!originHost && !refererHost && candidates.some((h) => hosts.has(h))) {
+    // Still block anonymous server-to-server scrapes in production unless
+    // they somehow spoof Host — Origin/Referer remain the primary gate.
+    // Require at least a browser fetch metadata hint when present.
+    if (!secFetchSite || secFetchSite === "none") {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
+  }
 
   return NextResponse.json({ message: "Forbidden" }, { status: 403 });
 }
@@ -86,7 +120,6 @@ export function assertRateLimit(
 
   bucket.count += 1;
 
-  // Opportunistic cleanup to avoid unbounded growth in long-lived isolates.
   if (buckets.size > 5_000) {
     for (const [k, b] of buckets) {
       if (now >= b.resetAt) buckets.delete(k);
