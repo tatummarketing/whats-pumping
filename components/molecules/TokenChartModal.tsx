@@ -89,12 +89,11 @@ export default function TokenChartModal({
         );
         const data = await res.json();
         if (cancelled) return;
-        const row = data.tokens?.[0];
-        if (data?.supported && row?.price && Array.isArray(row.prev)) {
+        if (data?.supported && data?.price && Array.isArray(data.prev)) {
           setPoints(
             build1mChart24h(
-              { ...token, usdPrice: row.price },
-              row.prev
+              { ...token, usdPrice: data.price },
+              data.prev
             )
           );
           setSource("1m · 24h · Cryptoslam + live USD");

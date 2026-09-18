@@ -1,5 +1,3 @@
-import { NextResponse } from "next/server";
-
 const API = "https://api.tatum.io";
 
 function apiKey() {
@@ -8,13 +6,16 @@ function apiKey() {
   return key;
 }
 
-export async function tatumGet(path: string) {
+export type TatumResult =
+  | { ok: true; status: number; body: unknown }
+  | { ok: false; status: number; body: unknown };
+
+export async function tatumFetch(path: string): Promise<TatumResult> {
   const res = await fetch(`${API}${path}`, {
     headers: {
       "x-api-key": apiKey(),
       accept: "application/json",
     },
-    // Edge / Webflow Cloud: no Next ISR cache options
     cache: "no-store",
   });
 
@@ -23,17 +24,12 @@ export async function tatumGet(path: string) {
   try {
     body = text ? JSON.parse(text) : null;
   } catch {
-    body = { message: text };
+    body = null;
   }
 
   if (!res.ok) {
-    return NextResponse.json(
-      typeof body === "object" && body
-        ? body
-        : { message: "Tatum request failed" },
-      { status: res.status }
-    );
+    return { ok: false, status: res.status, body };
   }
 
-  return NextResponse.json(body);
+  return { ok: true, status: res.status, body };
 }

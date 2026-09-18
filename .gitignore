@@ -36,6 +36,12 @@ yarn-error.log*
 next-env.d.ts
 .env*
 
-# Webflow Cloud / OpenNext
+# Webflow Cloud / OpenNext (generated on deploy)
 .open-next/
 .wrangler/
+clouduser.next.config.*
+next.config.ts
+next.config.webflow.ts
+wrangler.json
+webflow-loader.ts
+open-next.config.ts
